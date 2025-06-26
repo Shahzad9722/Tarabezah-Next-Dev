@@ -8,7 +8,7 @@ export const ElementLibrary: React.FC = () => {
     const { elementLibrary } = useFloorplan();
     const reservableItems = elementLibrary.filter(item => item.elementType === 'reservable');
     const decorativeItems = elementLibrary.filter(item => item.elementType === 'decorative');
-
+    // test comment
     return (
         <div className="space-y-6">
             <LibrarySection title="Tables & Seating" items={reservableItems} />
