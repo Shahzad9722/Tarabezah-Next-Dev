@@ -34,10 +34,17 @@ export default function Upload() {
 
     // File validation
     if (!file) {
-      newErrors.file = 'Please upload an SVG file';
+      newErrors.file = 'Please upload an image file';
       isValid = false;
-    } else if (!file.name.endsWith('.svg')) {
-      newErrors.file = 'Only SVG files are allowed';
+    } else if (
+      !(
+        file.name.endsWith('.svg') ||
+        file.name.endsWith('.png') ||
+        file.name.endsWith('.jpg') ||
+        file.name.endsWith('.jpeg')
+      )
+    ) {
+      newErrors.file = 'Only SVG, PNG, JPG, and JPEG files are allowed';
       isValid = false;
     }
 
@@ -149,11 +156,17 @@ export default function Upload() {
               e.stopPropagation();
               e.currentTarget.classList.remove('border-[#b98858]');
               const droppedFile = e.dataTransfer.files[0];
-              if (droppedFile && droppedFile.name.endsWith('.svg')) {
+              if (
+                droppedFile &&
+                (droppedFile.name.endsWith('.svg') ||
+                  droppedFile.name.endsWith('.png') ||
+                  droppedFile.name.endsWith('.jpg') ||
+                  droppedFile.name.endsWith('.jpeg'))
+              ) {
                 setFile(droppedFile);
                 setErrors({ ...errors, file: '' });
               } else {
-                setErrors({ ...errors, file: 'Only SVG files are allowed' });
+                setErrors({ ...errors, file: 'Only SVG, PNG, JPG, and JPEG files are allowed' });
               }
             }}
           >
@@ -197,21 +210,29 @@ export default function Upload() {
                     </p>
                   </div>
                 ) : (
-                  <p className='text-sm text-white mb-1'>Drag & drop your SVG file here, or</p>
+                  <p className='text-sm text-white mb-1'>Drag & drop your SVG, PNG, JPG, or JPEG file here, or</p>
                 )}
                 <label className='cursor-pointer text-[#b98858] hover:text-[#a77748] transition-colors'>
                   browse
                   <input
                     ref={inputRef}
                     type='file'
-                    accept='.svg'
+                    accept='.svg,.png,.jpg,.jpeg'
                     onChange={(e) => {
                       const selectedFile = e.target.files?.[0] || null;
                       setFile(selectedFile);
-                      if (selectedFile && !selectedFile.name.endsWith('.svg')) {
+                      if (
+                        selectedFile &&
+                        !(
+                          selectedFile.name.endsWith('.svg') ||
+                          selectedFile.name.endsWith('.png') ||
+                          selectedFile.name.endsWith('.jpg') ||
+                          selectedFile.name.endsWith('.jpeg')
+                        )
+                      ) {
                         setErrors({
                           ...errors,
-                          file: 'Only SVG files are allowed',
+                          file: 'Only SVG, PNG, JPG, and JPEG files are allowed',
                         });
                       } else {
                         setErrors({ ...errors, file: '' });
